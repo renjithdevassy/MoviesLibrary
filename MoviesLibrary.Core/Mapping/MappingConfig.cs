@@ -13,7 +13,9 @@ namespace MoviesLibrary.Core.Mapping
             {
                 x.CreateMap<MoviesEntity, MoviesModel>()
                .ReverseMap();
-                
+                x.CreateMap<MoviesLibrary.Data.Entities.Info, MoviesLibrary.API.Models.Info>()
+                .ReverseMap();
+
             });
             var mapper = cfg.CreateMapper();
 

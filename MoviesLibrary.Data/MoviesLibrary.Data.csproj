@@ -6,4 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Data\moviedata.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\moviedata.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MoviesLibrary.Data.Entities\MoviesLibrary.Data.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
