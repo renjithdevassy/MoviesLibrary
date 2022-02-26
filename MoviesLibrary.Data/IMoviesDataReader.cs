@@ -10,5 +10,6 @@ namespace MoviesLibrary.Data
     public interface IMoviesDataReader
     {
         Task<List<MoviesEntity>> GetAll();
+        Task<MoviesEntity> GetByTitle(string title);
     }
 }

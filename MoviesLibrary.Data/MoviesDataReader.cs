@@ -18,11 +18,25 @@ namespace MoviesLibrary.Data
                 string json = r.ReadToEnd();
                  movies = JsonSerializer.Deserialize<List<MoviesEntity>>(json);
 
-                movies = movies.OrderByDescending(m => m.info.release_date).Take(10).ToList();
-
                 return movies;
             }
             return movies;
+
+        }
+        public async Task<MoviesEntity> GetByTitle(string title)
+        {
+            List<MoviesEntity> movies = new List<MoviesEntity>();
+            MoviesEntity movie = new MoviesEntity();
+            using (StreamReader r = new StreamReader("Data/moviedata.json"))
+            {
+                string json = r.ReadToEnd();
+                movies = JsonSerializer.Deserialize<List<MoviesEntity>>(json);
+
+                movie = movies.Where(t => t.title == title).FirstOrDefault();
+
+                return movie;
+            }
+            return movie;
 
         }
     }

@@ -19,5 +19,11 @@ namespace MoviesLibrary.Web.API.Controllers
             var movies = await _moviesReader.GetAll();
             return movies;
         }
+        [HttpGet("{title}")]
+        public async Task<MoviesModel> GetByTitle(string title)
+        {
+            var movies = await _moviesReader.GetByTitle(title);
+            return movies;
+        }
     }
 }

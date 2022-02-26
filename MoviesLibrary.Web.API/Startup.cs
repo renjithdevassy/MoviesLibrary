@@ -42,12 +42,13 @@ namespace MoviesLibrary.Web.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
-
+            app.UseCors("Policy");
             app.UseAuthorization();
 
+ 
             app.MapControllers();
         }
+    
     }
 }

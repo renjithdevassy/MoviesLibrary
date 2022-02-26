@@ -1,0 +1,94 @@
+﻿@using MoviesLibrary.Web.Client.ViewModels;
+@using MoviesLibrary.API.Models;
+@page "/"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
+@inject HttpClient Http
+
+<PageTitle>Movies Library</PageTitle>
+
+<h1>Movies Library</h1>
+
+
+@if (movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table id="table" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Rating</th>
+                <th><span>Action</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in movies)
+            {
+                <tr>
+                    <td>@movie.title</td>
+                    <td>@movie.year</td>
+                    <td>@movie.info.rating</td>
+                    <td><button @onclick='(() =>Show(movie.title))'>show</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (ShowDialog)
+{
+
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleLabel">@movie.title</h5>
+                    <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <label><b>Year</b> : @movie.year </label>
+                        <br><label><b>Directors</b> : @String.Join(",",movie.info.directors) </label>
+                        <br><label><b>Release Date</b> : @movie.info.release_date </label>
+                        <br><label><b>Rating</b> : @movie.info.rating </label>
+                        <br><label><b>Genres </b>: @String.Join(",",movie.info.genres) </label>
+                        <br><p><b>Plot</b> : @movie.info.plot </p>
+                        <br><label><b>Rank</b> : @movie.info.rank </label>
+                        <br><label><b>Running Time </b>: @(movie.info.running_time_secs/60) Minutes</label>
+                        <br><label><b>Actors </b>: @String.Join(",",movie.info.actors) </label>
+                        <br>@if(movie.info.image_url!=null){<img src=@movie.info.image_url />}
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject]
+    public IMoviesViewModel moviesViewModel { get; set; }
+    public List<MoviesModel> movies = new List<MoviesModel>();
+    public MoviesModel movie = new MoviesModel();
+    public bool ShowDialog { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await moviesViewModel.GetAll();
+        await JSRuntime.InvokeAsync<object>("TestDataTablesAdd", "#table");
+
+    }
+    public async Task Show(string title) {   
+        movie = await moviesViewModel.GetByTitle(title);
+            ShowDialog = true;  
+            StateHasChanged();  
+        }  
+        public void Close() {  
+            ShowDialog = false;  
+            StateHasChanged();  
+        }  
+
+
+}

@@ -26,5 +26,11 @@ namespace MoviesLibrary.Core.Domain
             var entry = _objectMapper.Map<List<MoviesEntity>, List<MoviesModel>>(model);
             return entry;
         }
+        public async Task<MoviesModel> GetByTitle(string title)
+        {
+            var model = await _moviesDatReader.GetByTitle(title);
+            var entry = _objectMapper.Map<MoviesEntity, MoviesModel>(model);
+            return entry;
+        }
     }
 }

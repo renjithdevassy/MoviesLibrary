@@ -10,5 +10,6 @@ namespace MoviesLibrary.Core.Domain
     public interface IMoviesReader
     {
         Task<List<MoviesModel>> GetAll();
+        Task<MoviesModel> GetByTitle(string title);
     }
 }
